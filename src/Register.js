@@ -6,12 +6,8 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-
-
-
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
-
 
 const Register = () => {
     const userRef = useRef();
@@ -104,14 +100,51 @@ const Register = () => {
                     <br />
                     Letters, numbers, underscores, hyphens allowed.
                 </p>
-                <label htmlFor='password'></label>
-                Password: 
-                <span className={validName ? 'valid' : 'hide'}>
-                    <FontAwesomeIcon icon = {faCheck} />
-                </span>
+                <label htmlFor='password'>
+                    Password:
+                    <span className={validPwd ? 'valid' : 'hide'}>
+                        <FontAwesomeIcon icon={faCheck} />
+                    </span>
+                    <span className={validPwd || pwd ? 'hide' : 'invalid'}>
+                        <FontAwesomeIcon icon={faTimes} />
+                    </span>
+                </label>
+                <input
+                    type='password'
+                    id='password'
+                    value={pwd}
+                    onChange={(e) => setPwd(e.target.value)}
+                    required
+                    aria-invalid={validPwd ? 'false' : 'true'}
+                    aria-describedby='pwdnote'
+                    onFocus={() => setPwdFocus(true)}
+                    onBlur={() => setPwdFocus(false)}
+                />
+                <p
+                    id='pwdnote'
+                    className={
+                        pwdFocus && !validPwd ? 'instructions' : 'offscreen'
+                    }
+                >
+                    <FontAwesomeIcon icon={faInfoCircle} />
+                    8 to 24 characters.
+                    <br />
+                    Must include uppercase and lowercase letters, a number and a
+                    special character.
+                    <br />
+                    Allowed special characters:
+                    <span aria-label='exclamation mark'>!</span>
+                    <span aria-label='at symbol'>@</span>
+                    <span aria-label='hashtag'>#</span>
+                </p>
+                <label htmlFor='matchPwd'>
+                    Confirm Password:
+                    <span className={validMatch?'valid':'hide'}></span>
+                    <span className={validMatch && !matchPwd? 'hide': 'valid'}></span>
+                </label>
             </form>
         </section>
-    );
+    ); 19.58
 };
 
 export default Register;
