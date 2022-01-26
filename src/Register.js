@@ -2,7 +2,7 @@ import { useRef, useState, useEffect } from 'react';
 import {
     faCheck,
     faTimes,
-    faInfoCircle
+    faInfoCircle,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -13,32 +13,31 @@ const Register = () => {
     const userRef = useRef();
     const errRef = useRef();
 
-   
     const [user, setUser] = useState('');
     const [validName, setValidName] = useState(false);
     const [userFocus, setUserFocus] = useState(false);
 
- const [pwd, setPwd] = useState('');
- const [validPwd, setValidPwd] = useState(false);
- const [pwdFocus, setPwdFocus] = useState(false);
+    const [pwd, setPwd] = useState('');
+    const [validPwd, setValidPwd] = useState(false);
+    const [pwdFocus, setPwdFocus] = useState(false);
 
- const [matchPwd, setMatchPwd] = useState('');
- const [validMatch, setValidMatch] = useState(false);
- const [matchFocus, setMatchFocus] = useState(false);
+    const [matchPwd, setMatchPwd] = useState('');
+    const [validMatch, setValidMatch] = useState(false);
+    const [matchFocus, setMatchFocus] = useState(false);
 
     const [errMsg, setErrMsg] = useState('');
     const [success, setSuccess] = useState(false);
 
     useEffect(() => {
         userRef.current.focus();
-    }, [])
+    }, []);
 
     useEffect(() => {
         const result = USER_REGEX.test(user);
         console.log(result);
         console.log(user);
         setValidName(result);
-    }, [user])
+    }, [user]);
 
     useEffect(() => {
         const result = PWD_REGEX.test(pwd);
@@ -47,11 +46,11 @@ const Register = () => {
         setValidPwd(result);
         const match = pwd === matchPwd;
         setValidPwd(match);
-    }, [pwd, matchPwd])
+    }, [pwd, matchPwd]);
 
     useEffect(() => {
         setErrMsg('');
-    }, [user, pwd, matchPwd])
+    }, [user, pwd, matchPwd]);
 
     return (
         <section>
@@ -107,15 +106,15 @@ const Register = () => {
                     <span className={validPwd ? 'valid' : 'hide'}>
                         <FontAwesomeIcon icon={faCheck} />
                     </span>
-                    <span className={validPwd || pwd ? 'hide' : 'invalid'}>
+                    <span className={validPwd || !pwd ? 'hide' : 'invalid'}>
                         <FontAwesomeIcon icon={faTimes} />
                     </span>
                 </label>
                 <input
                     type='password'
                     id='password'
-                    value={pwd}
                     onChange={(e) => setPwd(e.target.value)}
+                    value={pwd}
                     required
                     aria-invalid={validPwd ? 'false' : 'true'}
                     aria-describedby='pwdnote'
@@ -142,7 +141,7 @@ const Register = () => {
                 <label htmlFor='confirm_pwd'>
                     Confirm Password:
                     <span className={validMatch && matchPwd ? 'valid' : 'hide'}>
-                        <FontAwesomeIcon icon={faInfoCircle} />
+                        <FontAwesomeIcon icon={faCheck} />
                     </span>
                     <span
                         className={validMatch || !matchPwd ? 'hide' : 'invalid'}
@@ -152,13 +151,14 @@ const Register = () => {
                 </label>
                 <input
                     type='password'
-                    value={matchPwd}
+                    id='confirm_pwd'
                     onChange={(e) => setMatchPwd(e.target.value)}
+                    value={matchPwd}
                     required
-                    aria-invalid={matchPwd ? 'false' : 'true'}
+                    aria-invalid={validMatch ? 'false' : 'true'}
+                    aria-describedby='confirmnote'
                     onFocus={() => setMatchFocus(true)}
                     onBlur={() => setMatchFocus(false)}
-                    aria-describedby='confirmnote'
                 />
                 <p
                     id='confirmnote'
@@ -169,9 +169,26 @@ const Register = () => {
                     <FontAwesomeIcon icon={faInfoCircle} />
                     Must match the first password input field.
                 </p>
+
+                <button
+                    disabled={
+                        !validName || !validPwd || !validMatch ? true : false
+                    }
+                >
+                    Sign Up
+                </button>
             </form>
+
+            <p>
+                Already registered?
+                <br />
+                <span className='line'>
+                    {/*put router link here*/}
+                    <a href='#'>Sign In</a>
+                </span>
+            </p>
         </section>
     );
 };
 
-export default Register
+export default Register;
