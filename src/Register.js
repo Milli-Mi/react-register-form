@@ -144,7 +144,8 @@ const Register = () => {
                 </label>
             </form>
         </section>
-    ); 19.58
+    ); 1//9.58
+    //faCheck
 };
 
 export default Register;
