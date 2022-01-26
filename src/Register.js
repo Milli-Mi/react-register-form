@@ -62,6 +62,7 @@ const Register = () => {
                 {errMsg}
             </p>
             <h1>Register</h1>
+
             <form>
                 <label htmlFor='username'>
                     Username:
@@ -137,15 +138,39 @@ const Register = () => {
                     <span aria-label='at symbol'>@</span>
                     <span aria-label='hashtag'>#</span>
                 </p>
-                <label htmlFor='matchPwd'>
+                <label htmlFor='confirm_pwd'>
                     Confirm Password:
-                    <span className={validMatch?'valid':'hide'}></span>
-                    <span className={validMatch && !matchPwd? 'hide': 'valid'}></span>
+                    <span className={validMatch && matchPwd ? 'valid' : 'hide'}>
+                        <FontAwesomeIcon icon={faInfoCircle} />
+                    </span>
+                    <span
+                        className={validMatch || !matchPwd ? 'hide' : 'invalid'}
+                    >
+                        <FontAwesomeIcon icon={faTimes} />
+                    </span>
                 </label>
+                <input
+                    type='password'
+                    value={matchPwd}
+                    onChange={(e) => setValidMatch(e.target.value)}
+                    required
+                    aria-invalid={matchPwd ? 'false' : 'true'}
+                    onFocus={() => setMatchFocus(true)}
+                    onBlur={() => setMatchFocus(false)}
+                    aria-describedby='confirmnote'
+                />
+                <p
+                    id='confirmnote'
+                    className={
+                        matchFocus && !validMatch ? 'instructions' : 'offscreen'
+                    }
+                >
+                    <FontAwesomeIcon icon={faInfoCircle} />
+                    Must match the first password input field.
+                </p>
             </form>
         </section>
-    ); 1//9.58
-    //faCheck
+    );
 };
 
 export default Register;
