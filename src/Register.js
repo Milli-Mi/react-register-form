@@ -45,7 +45,7 @@ const Register = () => {
         console.log(pwd);
         setValidPwd(result);
         const match = pwd === matchPwd;
-        setValidPwd(match);
+        setValidMatch(match);
     }, [pwd, matchPwd]);
 
     useEffect(() => {
