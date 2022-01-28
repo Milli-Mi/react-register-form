@@ -9,7 +9,7 @@ import axios from '.api/axios';
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
-const REGISTER_URL = './register';//registration endpoint
+const REGISTER_URL = '/register';//registration endpoint
 
 const Register = () => {
 
@@ -69,15 +69,31 @@ const Register = () => {
         try {
             const response = await axios.post(
                 REGISTER_URL,
-                JSON.stringify({user, pwd})
+                JSON.stringify({ user, pwd }),
                 //1.const response = await axios.post - (need to set the base url address)
                 //2.JSON.stringify(user,pwd) - (the data we send)
+                {
+                    headers: { 'Content-Type': 'application/json' },
+                    withCredentials: true,
+                }
             );
-           
+            console.log(response.data);
+            console.log(response.accessToken);
+            console.log(JSON.stringify(response));
+            setSuccess(true);
+            //clear state and controlled inputs
+            //need value attrib on inputs for this
         }
         catch (err) {
-
-        }
+              if (!err?.response) {
+                setErrMsg('No Server Response');
+        } else if 
+            (err.response?.status === 409) {
+                setErrMsg('Username Taken')
+            } else {
+                 setErrMsg('Registration Failed')
+            }
+         errRef.current.focus();
     };
 
     return (
@@ -229,5 +245,5 @@ const Register = () => {
         </>
     );
 };
-
+ 
 export default Register
