@@ -14,7 +14,7 @@ html {
 
 body {
     min-height: 100vh;
-    background-color:  dodgerblue; 
+    background-color:  rgba(133, 0, 77, 0.979); 
   
    
 }
@@ -36,7 +36,10 @@ section {
     flex-direction: column;
     justify-content: flex-start;
     padding: 1rem;
-    background-color: rgba(0,0,0,0.4);
+    box-shadow: 1px 1px 27px 27px rgba(255, 141, 207, 0.979),
+    inset  1px 1px 27px 27px rgba(255, 0, 149, 0.979);
+    background-color: rgba(143, 140, 140, 0);
+    /* rgba(0,0,0,0.4); */
 }
 
 form {
@@ -45,6 +48,9 @@ form {
     justify-content: space-evenly;
     flex-grow: 1;
     padding-bottom: 1rem;
+ 
+    
+
 }
 
 a, a:visited {
