@@ -5,11 +5,14 @@ import {
     faInfoCircle,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import axios from '.api/axios';
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
+const REGISTER_URL = './register';//registration endpoint
 
 const Register = () => {
+
     const userRef = useRef();
     const errRef = useRef();
 
@@ -51,8 +54,41 @@ const Register = () => {
     useEffect(() => {
         setErrMsg('');
     }, [user, pwd, matchPwd]);
+     
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        //if button enabled with js hack
+        const v1 = USER_REGEX.test(user);
+        const v2 = PWD_REGEX.test(pwd);
+        if (!v1 || !v2) {
+            setErrMsg('');
+            return;
+        }
+        //setSuccess(true);
+        //console.log(user, pwd) instead of this use try-cath
+        try {
+            const response = await axios.post(
+                REGISTER_URL,
+                JSON.stringify({user, pwd})
+                //1.const response = await axios.post - (need to set the base url address)
+                //2.JSON.stringify(user,pwd) - (the data we send)
+            );
+           
+        }
+        catch (err) {
+
+        }
+    };
 
     return (
+        <>
+        {success? (<section>
+            <h1>Success!</h1>
+            <p>
+                <a href = "#">Sing in</a>
+            </p>
+        </section>) :(
+       
         <section>
             <p
                 ref={errRef}
@@ -63,7 +99,7 @@ const Register = () => {
             </p>
             <h1>Register</h1>
 
-            <form>
+            <form onSubmit={handleSubmit}>
                 <label htmlFor='username'>
                     Username:
                     <span className={validName ? 'valid' : 'hide'}>
@@ -188,7 +224,10 @@ const Register = () => {
                 </span>
             </p>
         </section>
+        
+        )}
+        </>
     );
 };
 
-export default Register;
+export default Register
